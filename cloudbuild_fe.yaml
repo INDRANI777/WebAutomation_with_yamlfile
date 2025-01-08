@@ -1,0 +1,30 @@
+steps:
+  - id: "Generate JWT Token"
+    name: gcr.io/cloud-builders/gcloud
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        gcloud auth print-access-token > /workspace/token
+  - id: "Running test"
+    name: europe-west2-docker.pkg.dev/origin-all-prd-cicd/front-end/fe-test-automation:latest
+    entrypoint: mvn
+    args: ['test']
+    allowFailure: true
+  - id: "Export reports"
+    name: gcr.io/cloud-builders/gcloud
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        ls -ltr
+        cd test-output/ExtentReport
+        ls -ltr
+        gsutil cp FE_AuotmationReport* gs://origin-test-reports/front-end/
+ 
+options:
+  dynamic_substitutions: true
+  logging: LEGACY
+  pool:
+    name: 'projects/origin-all-prd-cicd/locations/europe-west2/workerPools/micro-services-pool'
+logsBucket: 'gs://origin-fe-${_ENVIRONMENT}-build-logs'
