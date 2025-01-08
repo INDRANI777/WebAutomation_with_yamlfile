@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+	<listeners>
+		<listener class-name="com.Origin.utility.ListenerClass"></listener>
+	</listeners>
+	<test thread-count="1" name="SmokeSuite">
+		<parameter name="browser" value="Firefox"></parameter>
+		<groups>
+			<run>
+				<include name="Smoke" />
+			</run>
+		</groups>
+		<classes>
+			<class name="com.Origin.testcases.SingleEDPTest" />
+			<class name="com.Origin.testcases.MultipleEDPTest" />
+			<class name="com.Origin.testcases.LoginPageTest" />
+			<class name="com.Origin.testcases.CrossMediaFlowTest" />
+		</classes>
+	</test> <!--
+	Test -->
+</suite> <!--
+Suite -->
